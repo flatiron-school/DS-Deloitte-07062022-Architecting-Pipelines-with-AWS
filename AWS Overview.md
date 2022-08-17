@@ -253,7 +253,7 @@ There is no bright-line distinction between deploying and productionizing, but i
 Here's how we'll use our newly-acquired AWS knowledge to create an ML pipeline in the [next lesson](https://github.com/flatiron-school/DS-Deloitte-07062022-Architecting-Pipelines-with-AWS)!
 
 <div>
-<img src="aws-model-inference-options.png" width="600"/>
+<img src="images/aws-model-inference-options.png" width="600"/>
 </div>
 
 [Source](https://www.coursera.org/lecture/ml-models-human-in-the-loop-pipelines/amazon-sagemaker-batch-transform-batch-inference-svDGb)
