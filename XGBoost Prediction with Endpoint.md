@@ -495,7 +495,7 @@ predict_and_plot(predictor, a_young_abalone)
 ```
 
 
-![png](output_8_0.png)
+![png](images/output_8_0.png)
 
 
 
@@ -505,7 +505,7 @@ predict_and_plot(predictor, an_old_abalone)
 ```
 
 
-![png](output_9_0.png)
+![png](images/output_9_0.png)
 
 
 
