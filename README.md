@@ -1059,4 +1059,6 @@ json.loads(pipeline.definition())
 
 
 
-This pipeline definition is ready to submit to SageMaker. During the next lecture, we'll submit this pipeline to SageMaker and start an execution!
+This pipeline definition is ready to submit to SageMaker. During the next lecture, we'll submit this pipeline to SageMaker and start a pipeline execution! Additionally, we'll demonstrate how to create an a real-time inference endpoint, as diagrammed below:
+
+![](./images/aws-model-inference-options-2.png)
