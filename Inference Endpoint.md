@@ -1,60 +1,45 @@
-```python
-!pip3 install -U sagemaker
-```
+## Contents
 
-    Looking in indexes: https://pypi.org/simple, https://pip.repos.neuron.amazonaws.com
-    Requirement already satisfied: sagemaker in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (2.101.1)
-    Collecting sagemaker
-      Downloading sagemaker-2.104.0.tar.gz (566 kB)
-    [2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m566.7/566.7 KB[0m [31m10.5 MB/s[0m eta [36m0:00:00[0m00:01[0m
-    [?25h  Preparing metadata (setup.py) ... [?25ldone
-    [?25hRequirement already satisfied: attrs<22,>=20.3.0 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from sagemaker) (21.2.0)
-    Requirement already satisfied: boto3<2.0,>=1.20.21 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from sagemaker) (1.24.42)
-    Requirement already satisfied: google-pasta in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from sagemaker) (0.2.0)
-    Requirement already satisfied: numpy<2.0,>=1.9.0 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from sagemaker) (1.20.3)
-    Requirement already satisfied: protobuf<4.0,>=3.1 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from sagemaker) (3.19.1)
-    Requirement already satisfied: protobuf3-to-dict<1.0,>=0.1.5 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from sagemaker) (0.1.5)
-    Requirement already satisfied: smdebug_rulesconfig==1.0.1 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from sagemaker) (1.0.1)
-    Requirement already satisfied: importlib-metadata<5.0,>=1.4.0 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from sagemaker) (4.8.2)
-    Requirement already satisfied: packaging>=20.0 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from sagemaker) (21.3)
-    Requirement already satisfied: pandas in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from sagemaker) (1.3.4)
-    Requirement already satisfied: pathos in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from sagemaker) (0.2.8)
-    Requirement already satisfied: s3transfer<0.7.0,>=0.6.0 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from boto3<2.0,>=1.20.21->sagemaker) (0.6.0)
-    Requirement already satisfied: jmespath<2.0.0,>=0.7.1 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from boto3<2.0,>=1.20.21->sagemaker) (0.10.0)
-    Collecting botocore<1.28.0,>=1.27.42
-      Downloading botocore-1.27.55-py3-none-any.whl (9.1 MB)
-    [2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m9.1/9.1 MB[0m [31m31.9 MB/s[0m eta [36m0:00:00[0m:00:01[0m00:01[0m
-    [?25hRequirement already satisfied: zipp>=0.5 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from importlib-metadata<5.0,>=1.4.0->sagemaker) (3.6.0)
-    Requirement already satisfied: pyparsing!=3.0.5,>=2.0.2 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from packaging>=20.0->sagemaker) (3.0.6)
-    Requirement already satisfied: six in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from protobuf3-to-dict<1.0,>=0.1.5->sagemaker) (1.16.0)
-    Requirement already satisfied: python-dateutil>=2.7.3 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from pandas->sagemaker) (2.8.2)
-    Requirement already satisfied: pytz>=2017.3 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from pandas->sagemaker) (2021.3)
-    Requirement already satisfied: dill>=0.3.4 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from pathos->sagemaker) (0.3.4)
-    Requirement already satisfied: multiprocess>=0.70.12 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from pathos->sagemaker) (0.70.12.2)
-    Requirement already satisfied: pox>=0.3.0 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from pathos->sagemaker) (0.3.0)
-    Requirement already satisfied: ppft>=1.6.6.4 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from pathos->sagemaker) (1.6.6.4)
-    Requirement already satisfied: urllib3<1.27,>=1.25.4 in /home/ec2-user/anaconda3/envs/python3/lib/python3.8/site-packages (from botocore<1.28.0,>=1.27.42->boto3<2.0,>=1.20.21->sagemaker) (1.26.8)
-    Building wheels for collected packages: sagemaker
-      Building wheel for sagemaker (setup.py) ... [?25ldone
-    [?25h  Created wheel for sagemaker: filename=sagemaker-2.104.0-py2.py3-none-any.whl size=782461 sha256=5ad7035ed0dc77b44379bbd7d0925ff0319669a268d6bc72287d4cb3ff05efb8
-      Stored in directory: /home/ec2-user/.cache/pip/wheels/ac/c9/3e/ddfd1cda6448ba8bdf089dd2e5099673abb4b278fb145608ff
-    Successfully built sagemaker
-    Installing collected packages: botocore, sagemaker
-      Attempting uninstall: botocore
-        Found existing installation: botocore 1.24.19
-        Uninstalling botocore-1.24.19:
-          Successfully uninstalled botocore-1.24.19
-      Attempting uninstall: sagemaker
-        Found existing installation: sagemaker 2.101.1
-        Uninstalling sagemaker-2.101.1:
-          Successfully uninstalled sagemaker-2.101.1
-    [31mERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
-    awscli 1.25.42 requires botocore==1.27.42, but you have botocore 1.27.55 which is incompatible.
-    aiobotocore 2.0.1 requires botocore<1.22.9,>=1.22.8, but you have botocore 1.27.55 which is incompatible.[0m[31m
-    [0mSuccessfully installed botocore-1.27.55 sagemaker-2.104.0
-    [33mWARNING: You are using pip version 22.0.4; however, version 22.2.2 is available.
-    You should consider upgrading via the '/home/ec2-user/anaconda3/envs/python3/bin/python -m pip install --upgrade pip' command.[0m[33m
-    [0m
+
+1. [Introduction](#Introduction)
+2. [Setup](#Setup)
+3. [Training the XGBoost model](#Training-the-XGBoost-model)
+4. [Deploying the XGBoost endpoint](#Deploying-the-XGBoost-endpoint)
+5. [Explaining Model Predictions](#Explain-the-model's-predictions-on-each-data-point)
+6. [Delete the Inference Endpoint](#Delete-Endpoint)
+
+## Introduction
+    
+This notebook shows how you can configure the SageMaker XGBoost model server by defining the following three functions in the Python source file you pass to the XGBoost constructor in the SageMaker Python SDK:
+- `input_fn`: Takes request data and deserializes the data into an object for prediction,
+- `predict_fn`: Takes the deserialized request object and performs inference against the loaded model, and
+- `output_fn`: Takes the result of prediction and serializes this according to the response content type.
+We will write a customized inference script that is designed to illustrate how [SHAP](https://github.com/slundberg/shap) values enable the interpretion of XGBoost models.
+
+We use the [Abalone data](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/regression.html), originally from the [UCI data repository](https://archive.ics.uci.edu/ml/datasets/abalone). More details about the original dataset can be found [here](https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.names).  In this libsvm converted version, the nominal feature (Male/Female/Infant) has been converted into a real valued feature as required by XGBoost. Age of abalone is to be predicted from eight physical measurements.
+
+This notebook uses the Abalone dataset to deploy a model server that returns SHAP values, which enable us to create model explanation such as the following plots that show each features contributing to push the model output from the base value.
+
+<table><tr>
+    <td> <img src="images/output_8_0.png"/> </td>
+    <td> <img src="images/output_9_0.png"/> </td>
+</tr></table>
+
+## Setup
+    
+This notebook was tested in Amazon SageMaker Studio on a `ml.t3.medium` instance.
+
+Let's start by specifying:
+
+1. The S3 bucket and prefix that you want to use for training and model data. This should be within the same region as the Notebook Instance, training, and hosting.
+<br>
+<br>
+2. The IAM role arn used to give training and hosting access to your data. See the documentation for how to create these. Note, if more than one role is required for notebook instances, training, and/or hosting, please replace the boto regex with a the appropriate full IAM role arn string(s).
+
+
+```python
+# !pip3 install -U sagemaker
+```
 
 
 ```python
@@ -79,6 +64,10 @@ prefix = "sagemaker/DEMO-xgboost-inference-script-mode"
     Wall time: 18.6 s
 
 
+### Fetching the dataset
+
+The following methods download the Abalone dataset and upload files to S3:
+
 
 ```python
 %%time
@@ -101,6 +90,21 @@ sagemaker.Session().upload_data(FILE_DATA, bucket=bucket, key_prefix=prefix + "/
     's3://sagemaker-us-west-1-167762637358/sagemaker/DEMO-xgboost-inference-script-mode/train/abalone'
 
 
+
+## Training the XGBoost model
+    
+SageMaker can now run an XGboost script using the XGBoost estimator. A typical training script loads data from the input channels, configures training with hyperparameters, trains a model, and saves a model to `model_dir` so that it can be hosted later. In this notebook, we use the same training script [abalone.py](https://github.com/awslabs/amazon-sagemaker-examples/blob/master/introduction_to_amazon_algorithms/xgboost_abalone/abalone.py) from [Regression with Amazon SageMaker XGBoost algorithm](https://github.com/awslabs/amazon-sagemaker-examples/blob/master/introduction_to_amazon_algorithms/xgboost_abalone/xgboost_abalone_dist_script_mode.ipynb). Refer to [Regression with Amazon SageMaker XGBoost algorithm](https://github.com/awslabs/amazon-sagemaker-examples/blob/master/introduction_to_amazon_algorithms/xgboost_abalone/xgboost_abalone_dist_script_mode.ipynb) for details on the training script.
+
+After setting training parameters, we kick off training, and poll for status until training is completed, which in this example, takes between few minutes.
+
+To run our training script on SageMaker, we construct a `sagemaker.xgboost.estimator.XGBoost` estimator, which accepts several constructor arguments:
+
+* __entry_point__: The path to the Python script SageMaker runs for training and prediction.
+* __role__: Role ARN
+* __framework_version__: SageMaker XGBoost version you want to use for executing your model training code, e.g., `1.0-1`, `1.2-2`, `1.3-1`, or `1.5-1`.
+* __train_instance_type__ *(optional)*: The type of SageMaker instances for training. __Note__: Because Scikit-learn does not natively support GPU training, Sagemaker Scikit-learn does not currently support training on GPU instance types.
+* __sagemaker_session__ *(optional)*: The session used to train on Sagemaker.
+* __hyperparameters__ *(optional)*: A dictionary passed to the train function as hyperparameters.
 
 
 ```python
@@ -141,6 +145,10 @@ train_input = TrainingInput(
 
     Training job DEMO-xgboost-inference-script-mode-2022-08-18-20-51-25
 
+
+### Train XGBoost Estimator on Abalone Data 
+    
+Training is as simple as calling `fit` on the Estimator. This will start a SageMaker Training job that will download the data, invoke the entry point code (in the provided script file), and save any model artifacts that the script creates. In this case, the script requires a `train` and a `validation` channel. Since we only created a `train` channel, we re-use it for validation:
 
 
 ```python
@@ -392,6 +400,73 @@ xgb_script_mode_estimator.fit({"train": train_input, "validation": train_input},
     Billable seconds: 97
 
 
+After training, we can host the newly created model in SageMaker, and create an Amazon SageMaker endpoint – a hosted and managed prediction service that we can use to perform inference. If you call `deploy` after you call `fit` on an XGBoost estimator, it will create a SageMaker endpoint using the training script (i.e., `entry_point`). You can also optionally specify other functions to customize the behavior of deserialization of the input request (`input_fn()`), serialization of the predictions (`output_fn()`), and how predictions are made (`predict_fn()`). If any of these functions are not specified, the endpoint will use the default functions in the SageMaker XGBoost container. See the [SageMaker Python SDK documentation](https://sagemaker.readthedocs.io/en/stable/frameworks/xgboost/using_xgboost.html#sagemaker-xgboost-model-server) for details.
+    
+In this notebook, we will run a separate inference script and customize the endpoint to return [SHAP](https://github.com/slundberg/shap) values in addition to predictions. The inference script that we will run in this notebook is provided as the accompanying file (`inference.py` | [Link](https://github.com/flatiron-school/DS-Deloitte-07062022-Architecting-Pipelines-with-AWS/blob/main/helpers/inference.py)) and also shown below:
+
+```
+import json
+import os
+import pickle as pkl
+
+import numpy as np
+
+import sagemaker_xgboost_container.encoder as xgb_encoders
+
+
+def model_fn(model_dir):
+    """
+    Deserialize and return fitted model.
+    """
+    model_file = "xgboost-model"
+    booster = pkl.load(open(os.path.join(model_dir, model_file), "rb"))
+    return booster
+
+
+def input_fn(request_body, request_content_type):
+    """
+    The SageMaker XGBoost model server receives the request data body and the content type,
+    and invokes the `input_fn`.
+
+    Return a DMatrix (an object that can be passed to predict_fn).
+    """
+    if request_content_type == "text/libsvm":
+        return xgb_encoders.libsvm_to_dmatrix(request_body)
+    else:
+        raise ValueError(
+            "Content type {} is not supported.".format(request_content_type)
+        )
+
+
+def predict_fn(input_data, model):
+    """
+    SageMaker XGBoost model server invokes `predict_fn` on the return value of `input_fn`.
+
+    Return a two-dimensional NumPy array where the first columns are predictions
+    and the remaining columns are the feature contributions (SHAP values) for that prediction.
+    """
+    prediction = model.predict(input_data)
+    feature_contribs = model.predict(input_data, pred_contribs=True, validate_features=False)
+    output = np.hstack((prediction[:, np.newaxis], feature_contribs))
+    return output
+
+
+def output_fn(predictions, content_type):
+    """
+    After invoking predict_fn, the model server invokes `output_fn`.
+    """
+    if content_type == "text/csv":
+        return ','.join(str(x) for x in predictions[0])
+    else:
+        raise ValueError("Content type {} is not supported.".format(content_type))
+```
+
+## Deploying the XGBoost endpoint
+
+### Deploy to an endpoint
+    
+Since the inference script is separate from the training script, here we use `XGBoostModel` to create a model from s3 artifacts and specify `inference.py` as the `entry_point`:
+
 
 ```python
 from sagemaker.xgboost.model import XGBoostModel
@@ -419,6 +494,8 @@ predictor = xgb_inference_model.deploy(
 ```
 
     -----!
+
+## Explain the model's predictions on each data point
 
 
 ```python
@@ -488,6 +565,8 @@ def predict_and_plot(predictor, libsvm_str):
     Matplotlib is building the font cache; this may take a moment.
 
 
+The below figure shows features each contributing to push the model output from the base value (9.9 rings) to the model output (6.9 rings). The primary indicator for a young abalone according to the model is low shell weight, which decreases the prediction by 3.0 rings from the base value of 9.9 rings. Whole weight and shucked weight are also powerful indicators. The whole weight pushes the prediction lower by 0.84 rings, while shucked weight pushes the prediction higher by 1.6 rings:
+
 
 ```python
 a_young_abalone = "6 1:3 2:0.37 3:0.29 4:0.095 5:0.249 6:0.1045 7:0.058 8:0.067"
@@ -495,8 +574,12 @@ predict_and_plot(predictor, a_young_abalone)
 ```
 
 
-![png](images/output_8_0.png)
+    
+![png](output_20_0.png)
+    
 
+
+The second example shows feature contributions for another sample, an old abalone. We again see that the primary indicator for the age of abalone according to the model is shell weight, which increases the model prediction by 2.36 rings. Whole weight and shucked weight also contribute significantly, and they both push the model's prediction higher:
 
 
 ```python
@@ -505,15 +588,16 @@ predict_and_plot(predictor, an_old_abalone)
 ```
 
 
-![png](images/output_9_0.png)
+    
+![png](output_22_0.png)
+    
 
+
+## Delete Endpoint
+
+Run the `delete_endpoint` to remove the hosted endpoint and avoid any charges from a stray instance being left on:
 
 
 ```python
 predictor.delete_endpoint()
-```
-
-
-```python
-
 ```
