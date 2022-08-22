@@ -1,4 +1,4 @@
-## Contents
+## Contents*
 
 
 1. [Introduction](#Introduction)
@@ -7,6 +7,8 @@
 4. [Deploying the XGBoost endpoint](#Deploying-the-XGBoost-endpoint)
 5. [Explaining Model Predictions](#Explain-the-model's-predictions-on-each-data-point)
 6. [Delete the Inference Endpoint](#Delete-Endpoint)
+
+* [Source](https://sagemaker-examples.readthedocs.io/en/latest/introduction_to_amazon_algorithms/xgboost_abalone/xgboost_inferenece_script_mode.html)
 
 ## Introduction
     
@@ -32,8 +34,6 @@ This notebook was tested in Amazon SageMaker Studio on a `ml.t3.medium` instance
 Let's start by specifying:
 
 1. The S3 bucket and prefix that you want to use for training and model data. This should be within the same region as the Notebook Instance, training, and hosting.
-<br>
-<br>
 2. The IAM role arn used to give training and hosting access to your data. See the documentation for how to create these. Note, if more than one role is required for notebook instances, training, and/or hosting, please replace the boto regex with a the appropriate full IAM role arn string(s).
 
 
