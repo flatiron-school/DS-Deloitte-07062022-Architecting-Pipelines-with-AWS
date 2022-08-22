@@ -1,3 +1,0 @@
-# Quick Start
-
-If you already know how to create a SageMaker notebook instance and feel comfortable uploading files with the SageMaker JupyterLab interface, then you can use the contents of this folder to quickly 1) create and execute a pipeline and/or 2) create and deploy an inference endpoint. In the case of the former, simply upload the Pipeline Creation and Execution Workflow notebook and run all cells. With respect to the latter, the Inference Endpoint Workflow notebook requires that both of the accompanying .py files be uploaded along with the notebook.
