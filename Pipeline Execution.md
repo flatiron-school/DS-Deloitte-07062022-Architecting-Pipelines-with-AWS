@@ -4,7 +4,7 @@
 
 After you’ve created a pipeline definition, you can submit it to SageMaker to start your execution. This notebook shows how to submit a pipeline, start an execution, examine the results of that execution, and delete your pipeline.
 
-**Note:** *Add these lines of code to the SageMaker [notebook used for pipeline definition](https://github.com/flatiron-school/DS-Deloitte-07062022-Architecting-Pipelines-with-AWS/blob/main/Pipeline%20Creation%20with%20AWS.ipynb).* 
+**Note:** *Add these lines of code to the SageMaker [notebook used for pipeline definition](https://github.com/flatiron-school/DS-Deloitte-07062022-Architecting-Pipelines-with-AWS/blob/main/Pipeline%20Creation.ipynb).* 
 
 ## Workflow
 
