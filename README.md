@@ -1,7 +1,7 @@
 # Architecting Pipelines with AWS
 ##### [Source](https://docs.aws.amazon.com/sagemaker/latest/dg/define-pipeline.html)
 
-To orchestrate your workflows with Amazon SageMaker Model Building Pipelines, you need to generate a directed acyclic graph (DAG) in the form of a JSON pipeline definition (to do so presupposes you have an adequate [AWS Overview](https://github.com/flatiron-school/DS-Deloitte-07062022-Architecting-Pipelines-with-AWS/blob/main/AWS%20Overview.md)). The following image is a representation of the pipeline DAG that is created using the workflow described in this notebook:
+To orchestrate your workflows with Amazon SageMaker Model Building Pipelines, you need to generate a directed acyclic graph (DAG) in the form of a JSON pipeline definition. The following image is a representation of the pipeline DAG that is created using the workflow described in this notebook:
 
 <div>
 <img src="images/pipeline-full.png" width="500"/>
@@ -69,64 +69,10 @@ The pipeline that you create follows a typical machine learning (ML) application
 ###### To run the following tutorial you must do the following:
 
 * Set up your notebook instance as outlined in [Create a notebook instance](https://docs.aws.amazon.com/sagemaker/latest/dg/howitworks-create-ws.html). This gives your role permissions to read and write to Amazon S3, and create training, batch transform, and processing jobs in SageMaker.
-<br><br>
-* Grant your notebook permissions to get and pass its own role as shown in [Modifying a role permissions policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-modify_permissions-policy). Add the following JSON snippet to attach this policy to your role. Replace `arn` value corresponding to the `Resource` key with the Amazon Resource Name (ARN) of your created notebook instance.
-
-![](./arn-location.png)
-
-
-```python
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "iam:GetRole",
-                "iam:PassRole"
-            ],
-            "Resource": "arn:aws:sagemaker:us-east-1:167762637358:notebook-instance/abalonepipelinetutorial"
-        }
-    ]
-}
-```
-
-
-
-
-    {'Version': '2012-10-17',
-     'Statement': [{'Effect': 'Allow',
-       'Action': ['iam:GetRole', 'iam:PassRole'],
-       'Resource': 'arn:aws:sagemaker:us-east-1:167762637358:notebook-instance/abalonepipelinetutorial'}]}
-
-
-
-Trust the SageMaker service principal by following the steps in [Modifying a role trust policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-cli.html#roles-managingrole_edit-trust-policy-cli). Add the following statement fragment to the trust relationship of your role:
-
-
-```python
-{
-      "Sid": "",
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "sagemaker.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-```
-
-
-
-
-    {'Sid': '',
-     'Effect': 'Allow',
-     'Principal': {'Service': 'sagemaker.amazonaws.com'},
-     'Action': 'sts:AssumeRole'}
-
-
+* (Optional) Upload and run the "Quick Start" notebook provided in the `sagemaker_upload` folder ([Link](https://github.com/flatiron-school/DS-Deloitte-07062022-Architecting-Pipelines-with-AWS/tree/main/sagemaker_upload)) by following the instructions in the `README`. 
 
 ## Set Up Your Environment
-Create a new SageMaker session using the following code block. This returns the role ARN for the session. This role ARN should be the execution role ARN that you set up as a prerequisite.
+Create a new SageMaker session using the following code block. This returns the role ARN for the session.
 
 
 ```python
@@ -171,7 +117,7 @@ The number of rings in the abalone shell is a good approximation for its age usi
 
 #### To download the dataset
 
-1. Download the dataset into your account's default Amazon S3 bucket:
+- Download the dataset into your account's default Amazon S3 bucket:
 
 
 ```python
@@ -195,7 +141,7 @@ print(input_data_uri)
     s3://sagemaker-us-east-1-167762637358/abalone/abalone-dataset.csv
 
 
-2. Download a second dataset for batch transformation after your model is created:
+- Download a second dataset for batch transformation after your model is created:
 
 
 ```python
@@ -285,14 +231,14 @@ This section shows how to create a processing step to prepare the data from the 
 
 #### To create a processing step
 
-1. Create a directory for the processing script:
+- Create a directory for the processing script:
 
 
 ```python
 !mkdir -p abalone
 ```
 
-2. Create a file in the `/abalone` directory named `preprocessing.py` with the following content. This preprocessing script is passed in to the processing step for execution on the input data. The training step then uses the preprocessed training features and labels to train a model, and the evaluation step uses the trained model and preprocessed test features and labels to evaluate the model. The script uses `scikit-learn` to do the following:
+- Create a file in the `/abalone` directory named `preprocessing.py` with the following content. This preprocessing script is passed in to the processing step for execution on the input data. The training step then uses the preprocessed training features and labels to train a model, and the evaluation step uses the trained model and preprocessed test features and labels to evaluate the model. The script uses `scikit-learn` to do the following:
 
     * Fill in missing `sex` categorical data and encode it so it's suitable for training.
 
@@ -395,7 +341,7 @@ if __name__ == "__main__":
     Overwriting abalone/preprocessing.py
 
 
-3. Create an instance of an `SKLearnProcessor` to pass in to the processing step. 
+- Create an instance of an `SKLearnProcessor` to pass in to the processing step. 
 
     Note the `processing_instance_count` parameter used by the processor instance (as defined above in **Step 2**). Also previously-specified was the `framework_version` to use throughout this notebook.
 
@@ -426,7 +372,7 @@ sklearn_processor = SKLearnProcessor(
 )
 ```
 
-4. Create a processing step. This step takes in the `SKLearnProcessor`, the input and output channels, and the `preprocessing.py` script that you created. This is very similar to a processor instance's run method in the SageMaker Python SDK. The `input_data` parameter passed into `ProcessingStep` is the input data of the step itself. This input data is used by the processor instance when it runs.
+- Create a processing step. This step takes in the `SKLearnProcessor`, the input and output channels, and the `preprocessing.py` script that you created. This is very similar to a processor instance's run method in the SageMaker Python SDK. The `input_data` parameter passed into `ProcessingStep` is the input data of the step itself. This input data is used by the processor instance when it runs.
 
     Note the `"train"`, `"validation"`, and `"test"` channels specified in the output configuration for the processing job. Step `Properties` such as these can be used in subsequent steps and resolve to their runtime values at execution.
 
@@ -461,14 +407,14 @@ This section shows how to use the SageMaker [XGBoost Algorithm](https://docs.aws
 
 #### To define a training step
 
-1. Specify the model path where you want to save the models from training:
+- Specify the model path where you want to save the models from training:
 
 
 ```python
 model_path = f"s3://{default_bucket}/AbaloneTrain"
 ```
 
-2. Configure an estimator for the XGBoost algorithm and the input dataset. The training instance type is passed into the estimator. A typical training script loads data from the input channels, configures training with hyperparameters, trains a model, and saves a model to `model_dir` so that it can be hosted later. SageMaker uploads the model to Amazon S3 in the form of a `model.tar.gz` at the end of the training job.
+- Configure an estimator for the XGBoost algorithm and the input dataset. The training instance type is passed into the estimator. A typical training script loads data from the input channels, configures training with hyperparameters, trains a model, and saves a model to `model_dir` so that it can be hosted later. SageMaker uploads the model to Amazon S3 in the form of a `model.tar.gz` at the end of the training job.
 
 
 ```python
@@ -502,7 +448,7 @@ xgb_train.set_hyperparameters(
 )
 ```
 
-3. Create a `TrainingStep` using the estimator instance and properties of the `ProcessingStep`. In particular, pass in the `S3Uri` of the `"train"` and `"validation"` output channel to the `TrainingStep`. 
+- Create a `TrainingStep` using the estimator instance and properties of the `ProcessingStep`. In particular, pass in the `S3Uri` of the `"train"` and `"validation"` output channel to the `TrainingStep`. 
 
 
 ```python
@@ -540,7 +486,7 @@ This section shows how to create a processing step to evaluate the accuracy of t
 
 #### To define a processing step for model evaluation
 
-1. Create a file in the `/abalone` directory named `evaluation.py`. This script is used in a processing step to perform model evaluation. It takes a trained model and the test dataset as input, then produces a JSON file containing classification evaluation metrics.
+- Create a file in the `/abalone` directory named `evaluation.py`. This script is used in a processing step to perform model evaluation. It takes a trained model and the test dataset as input, then produces a JSON file containing classification evaluation metrics.
 
 
 ```python
@@ -595,7 +541,7 @@ if __name__ == "__main__":
     Overwriting abalone/evaluation.py
 
 
-2. Create an instance of a `ScriptProcessor` that is used to create a `ProcessingStep`:
+- Create an instance of a `ScriptProcessor` that is used to create a `ProcessingStep`:
 
 
 ```python
@@ -611,7 +557,7 @@ script_eval = ScriptProcessor(
 )
 ```
 
-3. Create a `ProcessingStep` using the processor instance, the input and output channels, and the `evaluation.py` script. In particular, pass in the `S3ModelArtifacts` property from the `step_train` training step, as well as the `S3Uri` of the `"test"` output channel of the `step_process` processing step. This is very similar to a processor instance's `run` method in the SageMaker Python SDK. 
+- Create a `ProcessingStep` using the processor instance, the input and output channels, and the `evaluation.py` script. In particular, pass in the `S3ModelArtifacts` property from the `step_train` training step, as well as the `S3Uri` of the `"test"` output channel of the `step_process` processing step. This is very similar to a processor instance's `run` method in the SageMaker Python SDK. 
 
 
 ```python
@@ -656,7 +602,7 @@ This section shows how to create a SageMaker model from the output of the traini
 
 #### To define a CreateModelStep for batch transformation
 
-1. Create a SageMaker model. Pass in the `S3ModelArtifacts` property from the `step_train` training step:
+- Create a SageMaker model. Pass in the `S3ModelArtifacts` property from the `step_train` training step:
 
 
 ```python
@@ -670,7 +616,7 @@ model = Model(
 )
 ```
 
-2. Define the model input for your SageMaker model:
+- Define the model input for your SageMaker model:
 
 
 ```python
@@ -682,7 +628,7 @@ inputs = CreateModelInput(
 )
 ```
 
-3. Create your `CreateModelStep` using the `CreateModelInput` and SageMaker `model` instance you defined:
+- Create your `CreateModelStep` using the `CreateModelInput` and SageMaker `model` instance you defined:
 
 
 ```python
@@ -704,7 +650,7 @@ This section shows how to create a `TransformStep` to perform batch transformati
 
 #### To define a TransformStep to perform batch transformation
 
-1. Create a transformer instance with the appropriate compute instance type, instance count, and desired output Amazon S3 bucket URI. Pass in the `ModelName` property from the `step_create_model` `CreateModel` step.
+- Create a transformer instance with the appropriate compute instance type, instance count, and desired output Amazon S3 bucket URI. Pass in the `ModelName` property from the `step_create_model` `CreateModel` step.
 
 
 ```python
@@ -718,7 +664,7 @@ transformer = Transformer(
 )
 ```
 
-2. Create a `TransformStep` using the transformer instance you defined and the `batch_data` pipeline parameter:
+- Create a `TransformStep` using the transformer instance you defined and the `batch_data` pipeline parameter:
 
 
 ```python
@@ -808,7 +754,7 @@ A `ConditionStep` allows SageMaker Pipelines to support conditional execution in
 
 #### To define a condition step to verify model accuracy
 
-1. Define a `ConditionLessThanOrEqualTo` condition using the accuracy value found in the output of the model evaluation processing step, `step_eval`. Get this output using the property file you indexed in the processing step and the respective JSONPath of the mean squared error value, `"mse"`.
+- Define a `ConditionLessThanOrEqualTo` condition using the accuracy value found in the output of the model evaluation processing step, `step_eval`. Get this output using the property file you indexed in the processing step and the respective JSONPath of the mean squared error value, `"mse"`.
 
 
 ```python
@@ -826,7 +772,7 @@ cond_lte = ConditionLessThanOrEqualTo(
 )
 ```
 
-2. Construct a `ConditionStep`. Pass the `ConditionEquals` condition in, then set the model package registration and batch transformation steps as the next steps if the condition passes.
+- Construct a `ConditionStep`. Pass the `ConditionEquals` condition in, then set the model package registration and batch transformation steps as the next steps if the condition passes.
 
 
 ```python
@@ -849,7 +795,7 @@ Now that you’ve created all of the steps, you can combine them into a pipeline
 
 #### To create a pipeline
 
-1. Define the following for your pipeline: `name`, `parameters`, and `steps`. Names must be unique within an (`account`, `region`) pair.
+- Define the following for your pipeline: `name`, `parameters`, and `steps`. Names must be unique within an (`account`, `region`) pair.
 
 **Note**: *A step can only appear once* in either the pipeline's step list or the if/else step lists of the condition step. It cannot appear in both.
 
@@ -871,7 +817,7 @@ pipeline = Pipeline(
 )
 ```
 
-2. (Optional) Examine the JSON pipeline definition to ensure that it's well-formed:
+- (Optional) Examine the JSON pipeline definition to ensure that it's well-formed:
 
 
 ```python
@@ -1059,6 +1005,4 @@ json.loads(pipeline.definition())
 
 
 
-This pipeline definition is ready to submit to SageMaker. During the next lecture, we'll submit this pipeline to SageMaker and [start a pipeline execution](https://github.com/flatiron-school/DS-Deloitte-07062022-Architecting-Pipelines-with-AWS/blob/main/Pipeline%20Execution.ipynb)! Additionally, we'll demonstrate [how to create an a real-time inference endpoint](https://github.com/flatiron-school/DS-Deloitte-07062022-Pipeline-Execution-on-AWS), as diagrammed below:
-
-![](./images/aws-model-inference-options-2.png)
+This pipeline definition is ready to submit to SageMaker. During the next lecture, we'll submit this pipeline to SageMaker and [start an execution](https://github.com/flatiron-school/DS-Deloitte-07062022-Architecting-Pipelines-with-AWS/blob/main/Pipeline%20Execution.ipynb)!
